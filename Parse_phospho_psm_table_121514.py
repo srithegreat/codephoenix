@@ -396,6 +396,7 @@ def getpsmcount_labelfree():
 #uniq()
 
 def writexlsx():
+    """Writes final file in xlsx format"""
     import xlsxwriter
     newxls=xlsxwriter.Workbook("Genes_sites_Psmcount.xlsx")
     worksheet=newxls.add_worksheet()
