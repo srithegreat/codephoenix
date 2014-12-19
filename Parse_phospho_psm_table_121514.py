@@ -12,17 +12,18 @@ Sequence	Modifications	phosphoRS Site Probabilities	Spectrum File
 import re,sys
 from Bio import SeqIO
 pepglobal={}
+import argparse
 
-def correct_assignment_Y():
+def correct_assignment_Y(database,inputfile):
    """Program only corrects sites for pTyr"""
    psm_site={}
    line=0
-   out=open(sys.argv[1][:-4]+"_corrected.txt",'w')
+   out=open(inputfile[:-4]+"_corrected.txt",'w')
    out1=open("PSMs_Corrected_mapped_to_proteins.txt","w")
    #out.write("Status\t#of Phosphorylation Events detected	Peptide	Corrected Site (75%)	Sequence	Modification (s)	Probability	\n")
    cutoff=75.0
    
-   for eachline in open(sys.argv[1]):
+   for eachline in open(inputfile):
        
        if not eachline.startswith("Sequence"):
            line+=1
@@ -89,10 +90,10 @@ def correct_assignment_Y():
                    out.write("\t".join([status+"\t"+str(noofphospho),"".join(newsequence),";".join(corsite)])+"\t"+eachline.strip()+"\n")
                    
    out.close()
-   mappedpeps=map_proteins(psm_site)
+   mappedpeps=map_proteins(psm_site,database)
     #print mappedpeps.keys()
    
-   for j in open(sys.argv[1][:-4]+"_corrected.txt"):
+   for j in open(inputfile[:-4]+"_corrected.txt"):
        
        #print i.strip().split("\t")[1]
   
@@ -173,14 +174,14 @@ def correct_assignment_ST():
            
    out1.close()              
 
-def map_proteins(peptides):
+def map_proteins(peptides,database):
     print "working ",
     sys.stdout.flush()
     s=""
     acc=[]
     seqs={}
     #for i in SeqIO.parse(("/home/srikanth/Downloads/Refseq63_stats/human.protein.acc.RefSeq63.021014.fasta"),"fasta"):"/media/srikanth/srikanth_HDD1/IL-33/mouse_cont_RefSeq60_JUL2013.fasta"
-    for i in SeqIO.parse(("/home/srikanth/Downloads/refseq65/Human_RefSeq65_withGS_061214.fasta"),"fasta"):
+    for i in SeqIO.parse(database,"fasta"):
         if not i.id.split("|")[1].startswith("c"):#remove contaminants
             s+=str(i.seq)+"#"
             acc.append(i.description)
@@ -407,10 +408,18 @@ def writexlsx():
         row+=1
     newxls.close()
     
+if __name__=="__main__":
     
-correct_assignment_Y()
-create_sitelist()
-getgenewise()
-uniq()
-getpsmcount_labelfree()
-writexlsx()
+    __author__ = 'Srikanth'
+    parser = argparse.ArgumentParser(description='Program to parse PSM list, correct phospho sites and print PSM counts.')
+    parser.add_argument('-d','--database', help='Input database name',required=True)
+    parser.add_argument('-i','--inputfile', help='Input file',required=True)
+    #parser.add_argument('-o','--output',help='Output file name', required=True)
+    args = parser.parse_args()
+
+    correct_assignment_Y(args.database,args.inputfile)
+    create_sitelist()
+    getgenewise()
+    uniq()
+    getpsmcount_labelfree()
+    writexlsx()
