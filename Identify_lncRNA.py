@@ -86,13 +86,13 @@ def cpat_calc(mapped, output, fpkm):
     for every in mapped:
         if every in filterid:
 
-            allfpkm=max([float(g) for g in allids[every]])
+            allfpkm=max([float(g) for g in allids.get(every, 0)])
             if allfpkm>=0.1:
                 total+= 1
                 fpkm_values.write(every+"\t"+"\t".join(allids[every])+"\n")
                 prob_transcripts_multiple.write(">"+every+"\n"+mapped[every]+"\n")
         else:
-            filtered_transcripts.write(">"+every+"\n"+mapped[every]+"\n")
+            filtered_transcripts.write(">"+every+"\n"+mapped.get(every,"0")+"\n")
 
 
 
