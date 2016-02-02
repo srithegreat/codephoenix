@@ -77,7 +77,7 @@ def cpat_calc(mapped, output, fpkm):
     filterid=[]
     for each in open("temp/tempout"):
         try:
-            if float(each.strip().split("\t")[5])< 0.364:#decided based on datasets
+            if float(each.strip().split("\t")[5]) < 0.364:#decided based on datasets
 
                 filterid.append(each.strip().split("\t")[0])
         except:
