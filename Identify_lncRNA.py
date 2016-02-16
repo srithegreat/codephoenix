@@ -17,13 +17,14 @@ def main(genome, gtf, output, fpkm):
 	
 	
     print "Working with ", gtf
-    directory="temp"
+    directory = "temp"
+
     if not os.path.exists(directory):
         os.makedirs(directory)
 
     filter_gtf(gtf)
     print "Filtered GTF for class codes, creating fasta"
-    temp="temp/temp_"+str(random.randint(1,100))+".fasta"
+    temp = "temp/temp_" + str(random.randint(1,100)) + ".fasta"
     #os.system("gffread %s -U -g %s -w %s"%("filtered_gtffile.gtf",genome,temp))#single exon -U
     os.system("gffread %s -U -g %s -w %s"%("temp/filtered_gtffile.gtf", genome, temp))#Exclude single exon
     print "Done fasta, Filtering single exons and length>200 now...."
@@ -86,7 +87,7 @@ def cpat_calc(mapped, output, fpkm):
     for every in mapped:
         if every in filterid:
 
-            allfpkm=max([float(g) for g in allids.get(every, 0)])
+            allfpkm=max([float(g) for g in allids.get(every, "0")])
             if allfpkm>=0.1:
                 total+= 1
                 fpkm_values.write(every+"\t"+"\t".join(allids[every])+"\n")
