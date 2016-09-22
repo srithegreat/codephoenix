@@ -35,14 +35,13 @@ def cleave_peptide(db,inp):
         except:
             print "\t".join([str(each), str(ibaq),"0"])
 
-cleave_peptide("/home/iob/Dropbox/Sharing/6_Tissue_Transcriptome/Sequences/Gencode_Hs_V22_21816.fasta","/home/iob/Dropbox/Sharing/6_Tissue_Transcriptome/Transcriptomic/Data.txt")
-"""
+#cleave_peptide("/home/iob/Dropbox/Sharing/6_Tissue_Transcriptome/Sequences/Gencode_Hs_V22_21816.fasta","/home/iob/Dropbox/Sharing/6_Tissue_Transcriptome/Transcriptomic/Data.txt")#requires are fasta genome file and data file with three columns
+
 if __name__ == "__main__":
     __author__ = 'Srikanth'
-    parser = argparse.ArgumentParser(description='Program to parse...')
+    parser = argparse.ArgumentParser(description='Program to get iBAQ values, print to Std out...')
     parser.add_argument('-d', '--database', help='Input db', required=True)
     parser.add_argument('-i', '--inputfile', help='Input file', required=True)
     #parser.add_argument('-o','--output',help='Output file name', required=True)
     args = parser.parse_args()
     cleave_peptide(args.database,args.inputfile)
-"""
