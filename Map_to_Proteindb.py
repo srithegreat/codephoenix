@@ -10,11 +10,11 @@ for i in SeqIO.parse(open(raw_input("Enter fasta filename: ").strip()),"fasta"):
 
 
 c=0
-nf=open("Peptides_not_mapping_refseq.fasta","w")#output filename with unique entries
-out=open("Peptides_matching_all.txt","w") #output filename with_all mappings
+nf=open("Peptides_not_mapping_db.fasta","w")#output filename with unique entries
+out=open("Peptides_matching_db.txt","w") #output filename with_all mappings
 #pepcol=int(raw_input("Enter Column of peptides"))-1
 for record in SeqIO.parse(open(raw_input("Enter filename with peptides: ").strip()),"fasta"):
-	
+	#print record.seq
 	pep=str(record.seq)
 	header=record.description
 	match=[i.start() for i in re.finditer(pep.strip().upper(),s)]
